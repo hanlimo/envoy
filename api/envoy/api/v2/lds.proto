@@ -25,6 +25,8 @@ option (gogoproto.equal_all) = true; //gogo为每个message生成一个Equal met
 // listeners. Updates are delivered via streaming from the LDS server and
 // consist of a complete update of all listeners. Existing connections will be
 // allowed to drain from listeners that are no longer present.
+//Envoy实例通过listener列表初始化RPC，LDS服务端通过流式传输将更新消息推送给所有listener。
+//此过程中，现有的连接有权限移除不再存在的监听器
 service ListenerDiscoveryService {
   rpc StreamListeners(stream DiscoveryRequest) returns (stream DiscoveryResponse) {
   }
@@ -45,6 +47,11 @@ message Listener {
   // By default, the maximum length of a listener's name is limited to 60 characters. This limit can
   // be increased by setting the :option:`--max-obj-name-len` command line argument to the desired
   // value.
+  
+  // 每个listener都有nonce。如果未提供名称，Envoy会给监听器分配一个内部UUID。如果监听器想动态更新或者
+  // 通过ref:`LDS <config_listeners_lds>`的方式移除，名称是必须指定的。
+  //默认情况下，监听器名称在60个字符内，可以通过option:`--max-obj-name-len`增加命名的最大长度。
+  
   string name = 1;
 
   // The address that the listener should listen on. In general, the address must be unique, though
