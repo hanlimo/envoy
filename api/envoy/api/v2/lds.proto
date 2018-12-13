@@ -1,8 +1,8 @@
-syntax = "proto3";
+syntax = "proto3"; //不指定，默认使用proto2
 
 package envoy.api.v2;
 
-option java_generic_services = true;
+option java_generic_services = true; //protocol buffer询问编译器是否应该基于服务定义产生抽象服务代码
 
 import "envoy/api/v2/core/address.proto";
 import "envoy/api/v2/core/base.proto";
@@ -16,7 +16,7 @@ import "google/protobuf/wrappers.proto";
 import "validate/validate.proto";
 import "gogoproto/gogo.proto";
 
-option (gogoproto.equal_all) = true;
+option (gogoproto.equal_all) = true; //gogo为每个message生成一个Equal method
 
 // [#protodoc-title: Listener]
 // Listener :ref:`configuration overview <config_listeners>`
